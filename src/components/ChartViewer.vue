@@ -7,6 +7,9 @@
         {{parseInt(scale*100)}}%
         <button @click="scale-=0.1">-</button>
       </div>
+      <button class="download-btn" @click="downloadPDF">
+        <v-icon icon="mdi-download" size="small"></v-icon> Скачать PDF
+      </button>
     </div>
     <div class="viewer">
 <!--      {{chart}}-->
@@ -20,6 +23,9 @@
 
 <script>
 import {reactive} from "vue";
+import axios from 'axios';
+import { saveAs } from 'file-saver';
+
 
 export default {
   name: "ChartViewer",
@@ -29,6 +35,14 @@ export default {
       chart: props.chart,
       scale: 1
     })
+  },
+  methods: {
+    downloadPDF: function () {
+      axios.get('https://r2.rucharts.app/' + this.chart['pdf'], { responseType: 'blob' }).then((response) => {
+        const blob = new Blob([response.data], { type: response.type });
+        saveAs(blob, `${this.chart['airport']}, ${this.chart['title']}.pdf`);
+      }).catch(err => console.error(err));
+    }
   }
 }
 </script>
@@ -86,6 +100,14 @@ export default {
   padding: 5px 10px;
 }
 .scale-bar button:hover {
+  background-color: #616161;
+}
+.download-btn {
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: solid 1px white;
+}
+.download-btn:hover {
   background-color: #616161;
 }
 </style>
