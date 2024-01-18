@@ -22,7 +22,7 @@ let activeChart = ref(null)
 
 function setChart(chart) {
 
-  fetch('https://pub-3938d6183f92402eb3581942620ebbc7.r2.dev/' + chart['slug'] + '/manifest.json')
+  fetch('https://r2.rucharts.app/' + chart['slug'] + '/manifest.json')
     .then(res => {
       // a non-200 response code
       if (!res.ok) {

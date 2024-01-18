@@ -3,7 +3,8 @@
     <h3>
       <b>{{airport['code']}}</b>, {{airport['name']}}
       <button @click="saveAirport">
-        <v-icon icon="mdi-star" size="small" color="grey-darken-2"></v-icon>
+        <v-icon icon="mdi-star" size="small" class="start-icon" :class="[airport['favorite'] ? 'active-start-icon' : '']"
+        ></v-icon>
       </button>
     </h3>
 
@@ -22,9 +23,11 @@ export default {
   name: "AirportPage",
   props: ['airport'],
   setup(props) {
-    return reactive({
-      tab: 'charts'
+    const state = reactive({
+      tab: 'charts',
+      favorite: true
     })
+    return state
   },
   methods: {
     saveAirport: function () {
@@ -65,5 +68,17 @@ export default {
 .charts {
   overflow-y: auto;
   max-height: 100%;
+}
+.start-icon {
+  color: #616161;
+}
+.start-icon:hover {
+  color: #757575;
+}
+.active-start-icon {
+  color: #FDD835;
+}
+.active-start-icon:hover {
+  color: #FFF176;
 }
 </style>

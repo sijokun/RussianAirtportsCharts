@@ -11,7 +11,7 @@
     <div class="viewer">
 <!--      {{chart}}-->
       <div v-for="page in chart['pages']" :key="page" class="page">
-        <img :src="'https://pub-3938d6183f92402eb3581942620ebbc7.r2.dev/' +page" class="page-img"
+        <img :src="'https://r2.rucharts.app/' +page" class="page-img"
              :alt="chart['title']"/>
       </div>
     </div>

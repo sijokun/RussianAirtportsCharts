@@ -42,7 +42,7 @@ export default {
 
     onMounted(async () => {
       try {
-        const response = await fetch('https://pub-3938d6183f92402eb3581942620ebbc7.r2.dev/names.json')
+        const response = await fetch('https://r2.rucharts.app/names.json')
         state.data = await response.json()
       } catch (error) {
         console.error(error)
@@ -51,7 +51,7 @@ export default {
 
     onMounted(async () => {
       try {
-        const response = await fetch('https://pub-3938d6183f92402eb3581942620ebbc7.r2.dev/airports.json')
+        const response = await fetch('https://r2.rucharts.app/airports.json')
         state.airports = await response.json()
       } catch (error) {
         console.error(error)
