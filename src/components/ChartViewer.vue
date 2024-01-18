@@ -12,10 +12,10 @@
       </button>
     </div>
     <div class="viewer">
-<!--      {{chart}}-->
       <div v-for="page in chart['pages']" :key="page" class="page">
         <img :src="'https://r2.rucharts.app/' +page" class="page-img"
-             :alt="chart['title']"/>
+             :alt="chart['title']"
+              :class="[invert ? 'invert' : '']"/>
       </div>
     </div>
   </div>
@@ -31,10 +31,15 @@ export default {
   name: "ChartViewer",
   props: ['chart'],
   setup(props) {
-    return reactive({
-      chart: props.chart,
+    const state = reactive({
+      invert: false,
       scale: 1
     })
+    if (localStorage.getItem('invert') === 'true') {
+      state.invert = true
+    }
+
+    return state
   },
   methods: {
     downloadPDF: function () {
@@ -82,7 +87,9 @@ export default {
 .page-img {
   max-width: 100%;
   object-fit: contain;
-  /*filter: invert(100%);*/
+}
+.invert {
+  filter: invert(100%);
 }
 .chart-viewer-title {
   display: flex;

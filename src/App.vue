@@ -35,7 +35,6 @@ function setChart(chart) {
       return res.json();
     })
     .then(data => {
-      console.log(data)
       // set the response data
       activeChart.value = data;
     })

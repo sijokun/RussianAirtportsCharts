@@ -7,7 +7,7 @@
           <v-icon icon="mdi-close" size="large" color=""></v-icon>
         </button>
       </div>
-      <hr/>
+<!--      <hr/>-->
     </div>
     <div class="search-airport-con" v-if="!airport">
       <v-text-field
