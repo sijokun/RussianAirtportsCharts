@@ -9,6 +9,23 @@
           <chart-viewer v-if="activeChart" :chart="activeChart"/>
         </div>
       </div>
+
+      <v-dialog width="500" v-model="dialogActive">
+        <v-card title="Предупреждение">
+          <v-card-text>
+            Предоставляемая информация носит <b style="color: #E57373">ИСКЛЮЧИТЕЛЬНО ОЗНАКОМИТЕЛЬНЫЙ</b> характер.
+          </v-card-text>
+          <v-card-text>
+            <b>Не использовать для реальных полетов.</b>
+          </v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn @click="closeWarning()">Понятно</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
     </v-main>
   </v-app>
 </template>
@@ -19,7 +36,16 @@ import { ref, reactive } from 'vue'
 import ChartViewer from "@/components/ChartViewer";
 
 let activeChart = ref(null)
+let dialogActive = ref(false)
 
+if (localStorage.getItem('warning-shown') !== 'true') {
+  dialogActive.value = true
+}
+
+function closeWarning() {
+  dialogActive.value = false
+  localStorage.setItem('warning-shown', 'true')
+}
 function setChart(chart) {
 
   fetch('https://r2.rucharts.app/' + chart['slug'] + '/manifest.json')
