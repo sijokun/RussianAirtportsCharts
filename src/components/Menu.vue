@@ -146,6 +146,9 @@ export default {
   margin-top: 10px;
   padding: 10px;
   border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .airport-card:hover {
   background-color: #616161;

@@ -21,11 +21,10 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn @click="closeWarning()">Понятно</v-btn>
+            <v-btn @click="closeWarning()">Принять</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
-
     </v-main>
   </v-app>
 </template>
@@ -82,6 +81,14 @@ function setChart(chart) {
   display: flex;
   flex-direction: row;
   justify-content: stretch;
+  /*width: 100vw;*/
+  height: 100vh;
+
+  z-index: 10000000000000;
+
+}
+.aaaa {
+  background-color: red;
   width: 100vw;
   height: 100vh;
 }

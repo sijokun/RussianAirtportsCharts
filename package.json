@@ -12,6 +12,7 @@
     "file-saver": "^2.0.5",
     "roboto-fontface": "*",
     "vue": "^3.3.0",
+    "vue-easy-lightbox": "^1.17.0",
     "vuetify": "^3.0.0"
   },
   "devDependencies": {

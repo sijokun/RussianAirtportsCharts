@@ -12,17 +12,18 @@
       </button>
     </div>
     <div class="viewer">
-      <div v-for="page in chart['pages']" :key="page" class="page">
-        <img :src="'https://r2.rucharts.app/' +page" class="page-img"
+      <div v-for="(page, index)  in pages" :key="page" class="page">
+        <img :src="page" class="page-img"
              :alt="chart['title']"
-              :class="[invert ? 'invert' : '']"/>
+              :class="[invert ? 'invert' : '']" @click="showLightbox(index)"/>
       </div>
+      <vue-easy-lightbox :visible="lightbox" :imgs="pages" :index="lightbox_page" @hide="lightbox = false"></vue-easy-lightbox>
     </div>
   </div>
 </template>
 
 <script>
-import {reactive} from "vue";
+import {reactive, watch} from "vue";
 import axios from 'axios';
 import { saveAs } from 'file-saver';
 
@@ -33,15 +34,32 @@ export default {
   setup(props) {
     const state = reactive({
       invert: false,
+      pages: [],
+      lightbox: false,
+      lightbox_page: 1,
       scale: 1
+    })
+    props.chart['pages'].forEach(page => {
+      state.pages.push('https://r2.rucharts.app/'+page)
     })
     if (localStorage.getItem('invert') === 'true') {
       state.invert = true
     }
+    watch(() => [props.chart], () => {
+      state.pages = []
+      props.chart['pages'].forEach(page => {
+        state.pages.push('https://r2.rucharts.app/'+page)
+      })
+    })
 
     return state
   },
   methods: {
+    showLightbox: function (index) {
+      // alert(index)
+      this.lightbox_page = index
+      this.lightbox = true
+    },
     downloadPDF: function () {
       axios.get('https://r2.rucharts.app/' + this.chart['pdf'], { responseType: 'blob' }).then((response) => {
         const blob = new Blob([response.data], { type: response.type });
