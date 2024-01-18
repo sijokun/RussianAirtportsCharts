@@ -2,10 +2,7 @@
   <div class="airport-con">
     <h3>
       <b>{{airport['code']}}</b>, {{airport['name']}}
-      <button @click="saveAirport">
-        <v-icon icon="mdi-star" size="small" class="start-icon" :class="[airport['favorite'] ? 'active-start-icon' : '']"
-        ></v-icon>
-      </button>
+      <airport-star :airport="airport['code']" @updateFavorite="$emit('updateFavorite')"/>
     </h3>
 
     <div class="charts">
@@ -18,33 +15,16 @@
 
 <script>
 import {reactive} from "vue";
+import AirportStar from "@/components/AirportStar";
 
 export default {
   name: "AirportPage",
+  components: {AirportStar},
   props: ['airport'],
   setup(props) {
-    const state = reactive({
+    return reactive({
       tab: 'charts',
-      favorite: true
     })
-    return state
-  },
-  methods: {
-    saveAirport: function () {
-      let favorite_airports = localStorage.getItem('favorite_airports')
-      if (favorite_airports == null) {
-        favorite_airports = []
-      } else {
-        favorite_airports = JSON.parse(favorite_airports)
-      }
-      const record = [this.airport['code'], this.airport['code'] + ', ' + this.airport['name']]
-      if (!JSON.stringify(favorite_airports).includes(JSON.stringify(record))) {
-        favorite_airports.push(record)
-      } else {
-        favorite_airports.pop(record)
-      }
-      localStorage.setItem('favorite_airports',  JSON.stringify(favorite_airports))
-    }
   }
 }
 </script>
@@ -68,17 +48,5 @@ export default {
 .charts {
   overflow-y: auto;
   max-height: 100%;
-}
-.start-icon {
-  color: #616161;
-}
-.start-icon:hover {
-  color: #757575;
-}
-.active-start-icon {
-  color: #FDD835;
-}
-.active-start-icon:hover {
-  color: #FFF176;
 }
 </style>

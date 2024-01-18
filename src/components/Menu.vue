@@ -15,10 +15,12 @@
         label="Введите название аэропорта"
         class="search-field"
       ></v-text-field>
-        <div v-for="s in searchResults" :key="s[0]" class="airport-card" @click="selectAirport(s[0])"> {{s[1]}}</div>
+        <div v-for="s in searchResults" :key="s[0]" class="airport-card" @click.self="selectAirport(s[0])">{{s[1]}}
+          <airport-star :airport="s[0]" @updateFavorite="updateFavorite" class="star"/>
+        </div>
     </div>
     <div v-else  class="search-airport-con" >
-      <airport-page :airport="airport" @setChart="setChart"/>
+      <airport-page :airport="airport" @setChart="setChart" @updateFavorite="updateFavorite"/>
     </div>
   </div>
 </template>
@@ -26,10 +28,11 @@
 <script>
 import {onMounted, reactive, watch} from 'vue'
 import AirportPage from "@/components/AirportPage";
+import AirportStar from "@/components/AirportStar";
 
 export default {
   name: "Menu",
-  components: {AirportPage},
+  components: {AirportStar, AirportPage},
   setup() {
     const state = reactive({
       data: {},
@@ -44,6 +47,18 @@ export default {
       try {
         const response = await fetch('https://r2.rucharts.app/names.json')
         state.data = await response.json()
+
+        if (state.searchTerm === '') {
+
+          let favorite_airports = localStorage.getItem('favorite_airports')
+          if (favorite_airports != null) {
+            state.searchResults = []
+            for (const code of JSON.parse(favorite_airports)) {
+              state.searchResults.push([code, state.data[code], true])
+            }
+          }
+        }
+
       } catch (error) {
         console.error(error)
       }
@@ -65,32 +80,36 @@ export default {
           value.toLowerCase().includes(state.searchTerm.toLowerCase())
         )
       } else {
+        state.searchResults = []
         let favorite_airports = localStorage.getItem('favorite_airports')
         if (favorite_airports != null) {
-          state.searchResults = JSON.parse(favorite_airports)
+          for (const code of JSON.parse(favorite_airports)) {
+              state.searchResults.push([code, state.data[code], true])
+          }
         }
       }
     })
-
-    let favorite_airports = localStorage.getItem('favorite_airports')
-    if (favorite_airports != null) {
-      state.searchResults = JSON.parse(favorite_airports)
-    }
 
     return state
   },
   methods: {
     closeAirport: function () {
       this.airport = ''
-      if (!this.searchTerm) {
-        let favorite_airports = localStorage.getItem('favorite_airports')
-        if (favorite_airports != null) {
-          state.searchResults = JSON.parse(favorite_airports)
-        }
-      }
     },
     selectAirport: function(code) {
       this.airport = this.airports[code];
+    },
+    updateFavorite: function ( ) {
+      if (this.searchTerm === '') {
+        let favorite_airports = localStorage.getItem('favorite_airports')
+        if (favorite_airports != null) {
+          this.searchResults = []
+          for (const code of JSON.parse(favorite_airports)) {
+            this.searchResults.push([code, this.data[code], true])
+            console.log(this.data, code)
+          }
+        }
+      }
     },
     setChart: function (chart) {
       this.$emit('setChart', chart)
@@ -136,5 +155,8 @@ export default {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+}
+.star {
+  z-index: 2;
 }
 </style>
