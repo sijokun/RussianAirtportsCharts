@@ -1,7 +1,7 @@
 <template>
   <div class="airport-con">
     <h3>
-      <b>{{airport['code']}}</b>, {{airport['name']}}
+      <b>{{airport['code']}}</b>,<br>{{airport['name']}}
       <airport-star :airport="airport['code']" @updateFavorite="$emit('updateFavorite')"/>
     </h3>
 

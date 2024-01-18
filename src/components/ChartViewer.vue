@@ -8,7 +8,7 @@
         <button @click="scale-=0.1">-</button>
       </div>
       <button class="download-btn" @click="downloadPDF">
-        <v-icon icon="mdi-download" size="small"></v-icon> Скачать PDF
+        <v-icon icon="mdi-download" size="small"></v-icon> PDF
       </button>
     </div>
     <div class="viewer">
@@ -70,7 +70,7 @@ export default {
 .viewer{
   height: 100%;
   width: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 10px

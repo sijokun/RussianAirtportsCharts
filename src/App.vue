@@ -56,6 +56,8 @@ function setChart(chart) {
   display: flex;
   flex-direction: row;
   justify-content: stretch;
+  width: 100vw;
+  height: 100vh;
 }
 .col {
   height: 100vh;
@@ -66,7 +68,7 @@ function setChart(chart) {
 }
 .menu {
   width: 20%;
-  min-width: 400px;
+  min-width: 300px;
   padding: 0;
   height: 100vh;
   border-right: solid 2px #616161;
