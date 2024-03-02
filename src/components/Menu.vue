@@ -41,8 +41,6 @@ export default {
       searchResults: [],
       airports: {}
     })
-
-
     onMounted(async () => {
       try {
         const response = await fetch('https://r2.rucharts.app/names.json')
@@ -125,12 +123,12 @@ export default {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  gap: 10px
+  gap: 10px;
 }
 .title {
   display: flex;
   flex-direction: column;
-  gap: 10px
+  gap: 10px;
 }
 .search-field {
   margin-bottom: -20px;

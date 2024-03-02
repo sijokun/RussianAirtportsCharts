@@ -1,21 +1,24 @@
 <template>
   <div class="chart-viewer">
     <div class="chart-viewer-title">
-      <h3>{{chart['title']}}</h3>
+<!--      <div  @click="$emit('toggleMenu')">-->
+        <burger class="burger-icon" @click="$emit('toggleMenu')"/>
+        <h3 class="chart-title">{{chart['title']}}</h3>
       <div class="scale-bar">
         <button @click="scale+=0.1">+</button>
         {{parseInt(scale*100)}}%
         <button @click="scale-=0.1">-</button>
       </div>
       <button class="download-btn" @click="downloadPDF">
-        <v-icon icon="mdi-download" size="small"></v-icon> PDF
+        <v-icon icon="mdi-download" size="small"></v-icon>
+        <span class="hide-small">PDF</span>
       </button>
     </div>
     <div class="viewer">
       <div v-for="(page, index)  in pages" :key="page" class="page">
         <img :src="page" class="page-img"
              :alt="chart['title']"
-              :class="[invert ? 'invert' : '']" @click="showLightbox(index)"/>
+             :class="[invert ? 'invert' : '']" @click="showLightbox(index)"/>
       </div>
       <vue-easy-lightbox :visible="lightbox" :imgs="pages" :index="lightbox_page" @hide="lightbox = false"></vue-easy-lightbox>
     </div>
@@ -26,10 +29,12 @@
 import {reactive, watch} from "vue";
 import axios from 'axios';
 import { saveAs } from 'file-saver';
+import Burger from "@/components/BurgerIcon";
 
 
 export default {
   name: "ChartViewer",
+  components: {Burger},
   props: ['chart'],
   setup(props) {
     const state = reactive({
@@ -51,6 +56,7 @@ export default {
         state.pages.push('https://r2.rucharts.app/'+page)
       })
     })
+
 
     return state
   },
@@ -114,6 +120,7 @@ export default {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  gap: 10px
 }
 .scale-bar {
   display: none;
@@ -134,5 +141,21 @@ export default {
 }
 .download-btn:hover {
   background-color: #616161;
+}
+.burger-icon {
+  z-index: 101;
+  min-width: 30px;
+  display: none;
+}
+@media (max-width: 750px) {
+  .burger-icon {
+    display: block;
+  }
+  .chart-title {
+    font-size: 14px;
+  }
+  .hide-small {
+    display: none;
+  }
 }
 </style>

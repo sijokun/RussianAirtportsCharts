@@ -2,11 +2,11 @@
   <v-app>
     <v-main>
       <div class="flex-container">
-        <div class="col menu">
+        <div class="col menu" :class="{'menu-hide': !menuActive}">
           <Menu @setChart="setChart"/>
         </div>
         <div class="col viewer">
-          <chart-viewer v-if="activeChart" :chart="activeChart"/>
+          <chart-viewer v-if="activeChart" :chart="activeChart" @toggleMenu="toggleMenu"/>
         </div>
       </div>
 
@@ -36,6 +36,7 @@ import ChartViewer from "@/components/ChartViewer";
 
 let activeChart = ref(null)
 let dialogActive = ref(false)
+let menuActive = ref(true)
 
 if (localStorage.getItem('warning-shown') !== 'true') {
   dialogActive.value = true
@@ -44,6 +45,9 @@ if (localStorage.getItem('warning-shown') !== 'true') {
 function closeWarning() {
   dialogActive.value = false
   localStorage.setItem('warning-shown', 'true')
+}
+function toggleMenu() {
+  menuActive.value = !menuActive.value
 }
 function setChart(chart) {
 
@@ -62,6 +66,7 @@ function setChart(chart) {
     .then(data => {
       // set the response data
       activeChart.value = data;
+      toggleMenu();
     })
 
     // try {
@@ -84,13 +89,8 @@ function setChart(chart) {
   /*width: 100vw;*/
   height: 100vh;
 
-  z-index: 10000000000000;
+  overflow: hidden;
 
-}
-.aaaa {
-  background-color: red;
-  width: 100vw;
-  height: 100vh;
 }
 .col {
   height: 100vh;
@@ -105,6 +105,24 @@ function setChart(chart) {
   padding: 0;
   height: 100vh;
   border-right: solid 2px #616161;
+  z-index: 1;
+  background: rgb(18, 18, 18);
   /*background-color: white;*/
+}
+@media (max-width: 1000px) {
+  .menu {
+    min-width: 200px;
+  }
+}
+@media (max-width: 750px) {
+  .menu {
+    position: absolute;
+    width: 100vw;
+    background-color: black;
+    z-index: 100;
+  }
+  .menu-hide {
+    display: none;
+  }
 }
 </style>

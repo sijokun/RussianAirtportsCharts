@@ -49,4 +49,9 @@ export default {
   overflow-y: auto;
   max-height: 100%;
 }
+@media (max-width: 1000px) {
+  .chart-card {
+    font-size: 14px;
+  }
+}
 </style>
