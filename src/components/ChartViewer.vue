@@ -97,10 +97,16 @@ export default {
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+  align-items: start;
   gap: 10px
 }
+@media (min-width: 751px) {
+  .page {
+    height: 100%;
+  }
+}
 .page {
-  height: 100%;
+  /*height: 100%;*/
   /*max-width: 100%;*/
   display: flex;
   justify-content: center;
